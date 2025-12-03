@@ -13,8 +13,8 @@ load_dotenv()
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-# SEND_EMAILS = False 
-# SECONDS_BETWEEN_EMAILS = 20  
+SEND_EMAILS = True 
+SECONDS_BETWEEN_EMAILS = 10  
 
 GMAIL_ADDRESS = os.getenv("gmail_id")
 GMAIL_APP_PASSWORD = os.getenv("google_app_password")
@@ -73,15 +73,24 @@ def generate_email_llm(lead: dict) -> dict:
     - Website: {website}
 
     Email requirements:
-    - Start with "Hi {name},"
-    - Check their website and mention something relevant if possible
-    - Focus on how 3D visuals/3D animation can help their business
-    - 120- 150 words max
-    - Professional but relaxed, not salesy
-    - Mention 3D visuals/3D animation one time
-    - Avoid fake claims
-    - Soft CTA at the end (e.g., "open to a quick chat?" or similar)
-    - Mention working with a AmazingThing. 
+    - Start with: Hi {name},
+    - Keep the email between 100–120 words.
+    - If possible, mention something relevant from their website (only if it’s obvious; no assumptions).
+    - Do NOT start any sentence with “From ” because Gmail converts it to a quote.
+    - Focus on how 3D visuals or 3D animation can help their business.
+    - Maintain a professional but relaxed tone (not salesy).
+    - Mention 3D visuals or 3D animation exactly once.
+    - Use real paragraph breaks (double newline '\\n\\n').
+    - Structure the email into 2–3 short paragraphs (not one big block).
+    - Avoid any fake claims; only use phrases like "after a quick look online” or “after what I saw on your site.”
+    - Include a soft CTA at the end (e.g., open to a quick call or seeing concepts?).
+    - Add this line at the end of the email:
+
+    Behance: https://www.behance.net/nadeemmirr  
+    Instagram: https://www.instagram.com/_the.mesh/
+
+    - Mention briefly that I’ve worked with AmazingThing (mobile accessories brand focusing on durable phone cases, chargers, power solutions, and MagSafe-compatible products).
+    
 
     Return JSON only:
     {{
@@ -112,18 +121,44 @@ def generate_email_llm(lead: dict) -> dict:
 
     return {"subject": data["subject"].strip(), "body": data["body"].strip()}
 
+def send_email_smtp(to_email: str, subject: str, body: str):
+    msg = EmailMessage()
+    msg["From"] = f"Nadeem Ahmed Mir <{GMAIL_ADDRESS}>"
+    msg["To"] = to_email
+    msg["Subject"] = subject
+    msg.set_content(body)
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
+        smtp.send_message(msg)
 
 def main():
     leads = load_leads(CSV_PATH)
     print(f"Loaded {len(leads)} leads.\n")
 
-    for lead in leads:
+    for idx, lead in enumerate(leads, start=1):
         email = generate_email_llm(lead)
+
         print("=" * 80)
+        print(f"[{idx}/{len(leads)}]")
         print(f"To: {lead['email']}")
         print(f"Subject: {email['subject']}\n")
         print(email["body"])
         print()
+
+        if SEND_EMAILS:
+            try:
+                send_email_smtp(lead["email"], email["subject"], email["body"])
+                print("Sent.\n")
+            except Exception as e:
+                print(f"FAILED to send to {lead['email']}: {e}\n")
+
+            delay = SECONDS_BETWEEN_EMAILS
+            print(f"Waiting {delay:.1f} seconds before next email...\n")
+            time.sleep(delay)
+        else:
+            print("SEND_EMAILS is False → not sending.\n")
+
 
 
 if __name__ == "__main__":
