@@ -50,7 +50,7 @@ def summarize_website(context: str, company: str) -> str:
         Return just those 1–2 sentences, plain text.
         """
     res = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
+        model="openai/gpt-oss-safeguard-20b",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.2,
     )

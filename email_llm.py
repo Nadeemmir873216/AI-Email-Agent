@@ -45,11 +45,10 @@ def generate_email(lead: dict, website_summary: str) -> dict:
         - Use real paragraph breaks (double newline).
         - Structure the email into 2–3 short paragraphs.
         - Avoid fake claims (Even don't say that 'I've been following you').
-        - End with a soft CTA .
+        - End with a soft CTA. (like for a quick chat or seeing concepts).
         - Add this at the very end:
 
         Behance: https://www.behance.net/nadeemmirr
-        Instagram: https://www.instagram.com/_the.mesh/
 
         - Briefly mention that I’ve worked with AmazingThing, a mobile accessories brand (durable phone cases, chargers, power solutions, MagSafe-compatible products).
 
@@ -62,7 +61,7 @@ def generate_email(lead: dict, website_summary: str) -> dict:
         """
 
     res = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
+        model="openai/gpt-oss-safeguard-20b",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.45,
     )
