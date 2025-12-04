@@ -1,144 +1,172 @@
-📬 AI Email Outreach Agent
 
-An end-to-end AI-powered outreach system that automatically scrapes websites, summarizes company information, generates personalized cold emails using LLMs, and sends them with human-like timing.
+---
 
-Built using Groq, Python, BeautifulSoup, and SMTP — designed as a clean, modular AI engineering project suitable for professional portfolios and internships.
+```md
+# 📬 AI Email Outreach Agent
 
-🚀 Features
+An end-to-end AI-powered outreach system that automatically scrapes websites, summarizes company info, generates personalized cold emails using LLMs, and sends them with human-like delays.
 
-Full automation pipeline
-Scrapes → summarizes → generates → sends → logs
+Built with **Groq**, **Python**, **BeautifulSoup**, and **SMTP** — designed as a clean, modular AI engineering project suitable for professional portfolios and ML/AI internships.
 
-LLM-powered personalization with strict JSON output
+---
 
-Website scraper using BeautifulSoup
+## 🚀 Features
 
-Human-like randomized delays between emails
+- 🔹 **Fully automated outreach pipeline**  
+  Scrapes → Summarizes → Generates → Sends → Logs
 
-Modular architecture (easy to extend with LangGraph later)
+- 🔹 **LLM-powered personalization**  
+  Emails are generated using Groq LLaMA models with strict JSON output.
 
-Real-world SMTP sending (Zoho / Google Workspace)
+- 🔹 **Website scraping**  
+  Extracts page title, meta description, and H1 for personalization.
 
-CSV-based lead ingestion
+- 🔹 **Human-like randomness**  
+  Adds randomized delays to mimic natural sending behavior.
 
-Logging of all sent emails
+- 🔹 **Modular Python architecture**  
+  Each component is cleanly separated and easy to extend.
 
-🧠 How It Works
+- 🔹 **SMTP email sending**  
+  Works with Zoho Mail / Google Workspace / any SMTP provider.
 
-Load leads from CSV
+- 🔹 **Automatic logging**  
+  Saves every email (sent or not) to `sent_emails.csv`.
 
-Scrape the company’s website
+---
 
-Summarize content using Groq LLM
+## 🧠 How It Works
 
-Generate a personalized, multi-paragraph email
+1. Load leads from `leads.csv`  
+2. Scrape the company website  
+3. Summarize content using Groq LLM  
+4. Generate personalized 2–3 paragraph cold email  
+5. Validate & parse JSON output  
+6. Send via SMTP  
+7. Log results  
+8. Wait random delay and move to next lead  
 
-Validate JSON and format the email
+---
 
-Send email via SMTP
+## 🏗️ Project Structure
 
-Log details to sent_emails.csv
+```
 
-Wait a random delay before processing the next lead
-
-🏗️ Project Structure
 project/
 │
-├── config.py         # API keys, email settings, global constants
-├── leads.py          # CSV loading + lead normalization
-├── scrape.py         # HTML scraping and website summarization
-├── email_llm.py      # LLM prompting + JSON-safe parsing
+├── config.py         # API keys, SMTP, global config
+├── leads.py          # Lead CSV parsing + validation
+├── scrape.py         # Website HTML scraping + cleaning
+├── email_llm.py      # LLM prompts + JSON-safe parsing
 ├── mailer.py         # SMTP email sending
-├── logger.py         # Logging (CSV)
-├── agent.py          # Orchestration for each lead
-└── main.py           # Main entrypoint
+├── logger.py         # Logs all sent emails
+├── agent.py          # Orchestration logic per lead
+└── main.py           # Program entrypoint
 
-📦 Tech Stack
+```
 
-Python 3.x
+---
 
-Groq API (LLaMA models)
+## 📦 Tech Stack
 
-BeautifulSoup4
+- 🧠 **Groq API (LLaMA models)**
+- 🐍 **Python 3.x**
+- 🌐 **Requests + BeautifulSoup4**
+- ✉️ **SMTP (Zoho / Gmail / Workspace)**
+- 🔐 **dotenv**
+- 📊 **CSV logging**
 
-Requests
+---
 
-Zoho/Google SMTP
+## 📄 CSV Format
 
-dotenv
+Your `leads.csv` should look like:
 
-CSV logging
-
-📄 CSV Format
-
-leads.csv should contain:
+```
 
 Name,Company,Email,Website
-John Doe,Acme Inc,john@acme.com,https://acme.com
+John Doe,Acme Inc,[john@acme.com](mailto:john@acme.com),[https://acme.com](https://acme.com)
 
+````
 
-All emails are validated before sending.
+Invalid or missing emails are automatically skipped.
 
-🔧 Setup & Installation
-1. Install dependencies
+---
+
+## 🔧 Setup & Installation
+
+### 1. Install dependencies
+```bash
 pip install -r requirements.txt
+````
 
-2. Create a .env file
-GROQ_API_KEY=your_groq_key_here
-EMAIL_ADDRESS=your_email@yourdomain.com
+### 2. Create your `.env` file
+
+```
+GROQ_API_KEY=your_groq_key
+EMAIL_ADDRESS=hello@yourdomain.com
 EMAIL_PASSWORD=your_smtp_app_password
+```
 
-3. Run the agent
+### 3. Run the agent
+
+```bash
 python main.py
+```
 
-📊 Example Console Output
+---
+
+## 📊 Example Output
+
+```
 ================================================================================
 Processing: John Doe <john@acme.com> (Acme Inc.)
-Subject: Boost Acme’s product visuals with 3D animation
+Subject: Elevate Acme’s product showcase with 3D visuals
 
 Hi John Doe,
 
-After checking your website...
+After a quick look at your site...
 ...
 
 Sent.
 
-Waiting 42.3 seconds before next lead...
+Waiting 37.4 seconds before next lead...
+```
 
-🚧 Future Improvements
+---
 
-Email reply detection
+## 🚧 Future Enhancements
 
-Auto follow-up sequences
+* 🔁 Automated follow-up sequences
+* 🤖 Email reply classification
+* 🧩 LangGraph multi-agent orchestration
+* 📈 Open-rate + reply-rate analytics dashboard
+* 🗄️ Database backend (PostgreSQL)
+* 🌐 Web UI for non-technical users
+* 💬 Multi-channel outreach (LinkedIn API, WhatsApp Business API*)
 
-Lead scoring (LLM-based)
+---
 
-LangGraph / multi-agent orchestration
-
-Dashboard + analytics
-
-HTML email templates
-
-PostgreSQL database backend
-
-🧩 Why This Project Matters
+## 🧩 Why This Project Is Portfolio-Ready
 
 This project demonstrates:
 
-Applied AI engineering
+* AI agent design
+* LLM orchestration
+* Prompt engineering
+* Website scraping + parsing
+* Real SMTP automation
+* Multi-file production architecture
+* Applied AI (not just ML theory)
+* Clean, scalable design
 
-Multi-step agent design
+Perfect for showcasing ML/AI engineering skills.
 
-Prompt engineering
+---
 
-API orchestration
+## 📜 License
 
-Real-world automation
+MIT License — feel free to use and modify.
 
-Production-style Python architecture
+---
 
-Perfect for Machine Learning, Generative AI, and Software Engineering portfolios.
-
-📜 License
-
-MIT License — free to use and modify.
