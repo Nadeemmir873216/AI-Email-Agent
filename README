@@ -1,0 +1,234 @@
+AI Email Outreach Agent
+
+An automated, end-to-end AI agent that scrapes websites, summarizes company information, generates personalized cold emails using LLMs, and sends them with human-like delays — all fully hands-free.
+
+Built with Groq, Python, BeautifulSoup, and SMTP, this system is a practical example of applied AI engineering and automation.
+
+🚀 Features
+✓ Fully automated outreach pipeline
+
+For each lead, the agent:
+
+Reads lead data from CSV
+
+Scrapes the company's website
+
+Summarizes what the company does using an LLM
+
+Generates a personalized cold email (JSON-formatted)
+
+Sends the email via SMTP
+
+Logs the result with timestamps
+
+Waits a random delay (mimics human behavior)
+
+✓ AI-powered personalization
+
+Uses LLMs (Groq API) to:
+
+Extract meaningful website information
+
+Condense it into a short business summary
+
+Generate a high-quality, multi-paragraph, non-templated email
+
+Enforce strict constraints (formatting, wording, JSON structure)
+
+No two emails are the same.
+
+✓ Human-like behavior
+
+To prevent spam-like patterns:
+
+Randomized delays
+
+Unique wording
+
+Varied sentence structure
+
+Personalized references based on website summary
+
+✓ Modular architecture
+
+The project is fully modularized:
+
+project/
+│
+├── config.py         # API keys, SMTP settings, global constants
+├── leads.py          # CSV reader + lead normalization
+├── scrape.py         # Website fetching + HTML parsing
+├── email_llm.py      # Prompting + JSON-safe parsing
+├── mailer.py         # Email sending via SMTP
+├── logger.py         # Logging all sent emails
+├── agent.py          # The orchestration logic per lead
+└── main.py           # Main entrypoint
+
+
+Easy to extend, test, or plug into LangGraph later.
+
+🧠 Tech Stack
+
+Groq LLM API (LLaMA models)
+
+Python 3.x
+
+BeautifulSoup4 for HTML parsing
+
+Requests for scraping
+
+SMTP (Zoho / Gmail / Workspace)
+
+dotenv for config management
+
+CSV logging
+
+This project demonstrates real AI engineering workflows, including prompting, multi-step agents, data cleaning, and production-style structure.
+
+🎯 Why This Project Matters
+
+This is not just a script — it's a working AI agent with:
+
+Real-world business use
+
+Multi-step reasoning
+
+Tool usage (scrape → summarize → generate → send)
+
+Error handling
+
+JSON structure enforcement
+
+Modular architecture
+
+Automation and pipelines
+
+It shows competence in:
+
+ML/AI integration
+
+Automation engineering
+
+Backend logic
+
+Applied prompting
+
+API usage
+
+Software design patterns
+
+Perfect for ML/AI internship portfolios.
+
+⚙️ How It Works (Flow)
+
+Load Leads
+Reads leads.csv → extracts name, email, company, website.
+
+Scrape Website
+Downloads HTML → extracts title, meta description, H1 → cleans + truncates.
+
+Summarize Website (LLM)
+Converts raw website text into a 1–2 sentence description.
+
+Generate Email (LLM)
+Strictly enforced:
+
+100–120 words
+
+2–3 paragraphs
+
+Personalization
+
+Exactly one mention of 3D visuals
+
+No use of “From ” (to avoid Gmail quote formatting)
+
+JSON output only
+
+Send Email via SMTP
+Fully automated.
+
+Log Result
+Saves:
+
+timestamp
+
+lead info
+
+subject
+
+email body
+
+send status
+
+Random Delay
+Waits a human-like number of seconds before the next lead.
+
+📁 CSV Format
+
+Your leads.csv should include:
+
+Name,Company,Email,Website
+John Doe,Acme Inc,john@acme.com,https://acme.com
+...
+
+
+Invalid rows are skipped automatically.
+
+🔧 Setup
+1. Install dependencies
+pip install -r requirements.txt
+
+2. Add your .env
+GROQ_API_KEY=your_key
+EMAIL_ADDRESS=hello@yourdomain.com
+EMAIL_PASSWORD=your_smtp_app_password
+
+3. Run the agent
+python main.py
+
+🔍 Example Output (Console)
+================================================================================
+Processing: John Doe <john@acme.com> (Acme Inc.)
+Subject: Boost Acme’s product visuals with 3D animation
+
+Hi John Doe,
+
+After checking your website, I noticed Acme’s focus on innovative smart-home devices...
+...
+
+Sent.
+
+Waiting 42.3 seconds before next lead...
+
+🛠️ Future Extensions
+
+You can easily upgrade this project to a full SaaS:
+
+Follow-up email sequences
+
+Multi-channel outreach (LinkedIn, WhatsApp*)
+
+Web-based dashboard
+
+LangGraph agent orchestration
+
+Email reply classification (LLM sentiment)
+
+Lead scoring
+
+Analytics (open/reply rate tracking)
+
+PostgreSQL for logs
+
+RAG on client website content
+
+This architecture is designed to scale.
+
+📜 License
+
+MIT License — easy for others to fork, study, and build on.
+
+⭐ If you find this project useful, give it a star!
+
+It helps me continue building smart automation tools.
