@@ -1,234 +1,144 @@
-AI Email Outreach Agent
+📬 AI Email Outreach Agent
 
-An automated, end-to-end AI agent that scrapes websites, summarizes company information, generates personalized cold emails using LLMs, and sends them with human-like delays — all fully hands-free.
+An end-to-end AI-powered outreach system that automatically scrapes websites, summarizes company information, generates personalized cold emails using LLMs, and sends them with human-like timing.
 
-Built with Groq, Python, BeautifulSoup, and SMTP, this system is a practical example of applied AI engineering and automation.
+Built using Groq, Python, BeautifulSoup, and SMTP — designed as a clean, modular AI engineering project suitable for professional portfolios and internships.
 
 🚀 Features
-✓ Fully automated outreach pipeline
 
-For each lead, the agent:
+Full automation pipeline
+Scrapes → summarizes → generates → sends → logs
 
-Reads lead data from CSV
+LLM-powered personalization with strict JSON output
 
-Scrapes the company's website
+Website scraper using BeautifulSoup
 
-Summarizes what the company does using an LLM
+Human-like randomized delays between emails
 
-Generates a personalized cold email (JSON-formatted)
+Modular architecture (easy to extend with LangGraph later)
 
-Sends the email via SMTP
+Real-world SMTP sending (Zoho / Google Workspace)
 
-Logs the result with timestamps
+CSV-based lead ingestion
 
-Waits a random delay (mimics human behavior)
+Logging of all sent emails
 
-✓ AI-powered personalization
+🧠 How It Works
 
-Uses LLMs (Groq API) to:
+Load leads from CSV
 
-Extract meaningful website information
+Scrape the company’s website
 
-Condense it into a short business summary
+Summarize content using Groq LLM
 
-Generate a high-quality, multi-paragraph, non-templated email
+Generate a personalized, multi-paragraph email
 
-Enforce strict constraints (formatting, wording, JSON structure)
+Validate JSON and format the email
 
-No two emails are the same.
+Send email via SMTP
 
-✓ Human-like behavior
+Log details to sent_emails.csv
 
-To prevent spam-like patterns:
+Wait a random delay before processing the next lead
 
-Randomized delays
-
-Unique wording
-
-Varied sentence structure
-
-Personalized references based on website summary
-
-✓ Modular architecture
-
-The project is fully modularized:
-
+🏗️ Project Structure
 project/
 │
-├── config.py         # API keys, SMTP settings, global constants
-├── leads.py          # CSV reader + lead normalization
-├── scrape.py         # Website fetching + HTML parsing
-├── email_llm.py      # Prompting + JSON-safe parsing
-├── mailer.py         # Email sending via SMTP
-├── logger.py         # Logging all sent emails
-├── agent.py          # The orchestration logic per lead
+├── config.py         # API keys, email settings, global constants
+├── leads.py          # CSV loading + lead normalization
+├── scrape.py         # HTML scraping and website summarization
+├── email_llm.py      # LLM prompting + JSON-safe parsing
+├── mailer.py         # SMTP email sending
+├── logger.py         # Logging (CSV)
+├── agent.py          # Orchestration for each lead
 └── main.py           # Main entrypoint
 
-
-Easy to extend, test, or plug into LangGraph later.
-
-🧠 Tech Stack
-
-Groq LLM API (LLaMA models)
+📦 Tech Stack
 
 Python 3.x
 
-BeautifulSoup4 for HTML parsing
+Groq API (LLaMA models)
 
-Requests for scraping
+BeautifulSoup4
 
-SMTP (Zoho / Gmail / Workspace)
+Requests
 
-dotenv for config management
+Zoho/Google SMTP
+
+dotenv
 
 CSV logging
 
-This project demonstrates real AI engineering workflows, including prompting, multi-step agents, data cleaning, and production-style structure.
+📄 CSV Format
 
-🎯 Why This Project Matters
-
-This is not just a script — it's a working AI agent with:
-
-Real-world business use
-
-Multi-step reasoning
-
-Tool usage (scrape → summarize → generate → send)
-
-Error handling
-
-JSON structure enforcement
-
-Modular architecture
-
-Automation and pipelines
-
-It shows competence in:
-
-ML/AI integration
-
-Automation engineering
-
-Backend logic
-
-Applied prompting
-
-API usage
-
-Software design patterns
-
-Perfect for ML/AI internship portfolios.
-
-⚙️ How It Works (Flow)
-
-Load Leads
-Reads leads.csv → extracts name, email, company, website.
-
-Scrape Website
-Downloads HTML → extracts title, meta description, H1 → cleans + truncates.
-
-Summarize Website (LLM)
-Converts raw website text into a 1–2 sentence description.
-
-Generate Email (LLM)
-Strictly enforced:
-
-100–120 words
-
-2–3 paragraphs
-
-Personalization
-
-Exactly one mention of 3D visuals
-
-No use of “From ” (to avoid Gmail quote formatting)
-
-JSON output only
-
-Send Email via SMTP
-Fully automated.
-
-Log Result
-Saves:
-
-timestamp
-
-lead info
-
-subject
-
-email body
-
-send status
-
-Random Delay
-Waits a human-like number of seconds before the next lead.
-
-📁 CSV Format
-
-Your leads.csv should include:
+leads.csv should contain:
 
 Name,Company,Email,Website
 John Doe,Acme Inc,john@acme.com,https://acme.com
-...
 
 
-Invalid rows are skipped automatically.
+All emails are validated before sending.
 
-🔧 Setup
+🔧 Setup & Installation
 1. Install dependencies
 pip install -r requirements.txt
 
-2. Add your .env
-GROQ_API_KEY=your_key
-EMAIL_ADDRESS=hello@yourdomain.com
+2. Create a .env file
+GROQ_API_KEY=your_groq_key_here
+EMAIL_ADDRESS=your_email@yourdomain.com
 EMAIL_PASSWORD=your_smtp_app_password
 
 3. Run the agent
 python main.py
 
-🔍 Example Output (Console)
+📊 Example Console Output
 ================================================================================
 Processing: John Doe <john@acme.com> (Acme Inc.)
 Subject: Boost Acme’s product visuals with 3D animation
 
 Hi John Doe,
 
-After checking your website, I noticed Acme’s focus on innovative smart-home devices...
+After checking your website...
 ...
 
 Sent.
 
 Waiting 42.3 seconds before next lead...
 
-🛠️ Future Extensions
+🚧 Future Improvements
 
-You can easily upgrade this project to a full SaaS:
+Email reply detection
 
-Follow-up email sequences
+Auto follow-up sequences
 
-Multi-channel outreach (LinkedIn, WhatsApp*)
+Lead scoring (LLM-based)
 
-Web-based dashboard
+LangGraph / multi-agent orchestration
 
-LangGraph agent orchestration
+Dashboard + analytics
 
-Email reply classification (LLM sentiment)
+HTML email templates
 
-Lead scoring
+PostgreSQL database backend
 
-Analytics (open/reply rate tracking)
+🧩 Why This Project Matters
 
-PostgreSQL for logs
+This project demonstrates:
 
-RAG on client website content
+Applied AI engineering
 
-This architecture is designed to scale.
+Multi-step agent design
+
+Prompt engineering
+
+API orchestration
+
+Real-world automation
+
+Production-style Python architecture
+
+Perfect for Machine Learning, Generative AI, and Software Engineering portfolios.
 
 📜 License
 
-MIT License — easy for others to fork, study, and build on.
-
-⭐ If you find this project useful, give it a star!
-
-It helps me continue building smart automation tools.
+MIT License — free to use and modify.
